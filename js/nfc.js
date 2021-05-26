@@ -74,12 +74,12 @@ const ndef = new NDEFReader();
 function writenfc()
 {
     if ('NDEFWriter' in window) {
-        if(document.getElementById("nfcTextbox").innerHTML != "")
+        if(document.getElementById("nfcTextbox").value != "")
         {
+            console.log("not empty");
             ndef.write(
-                document.getElementById("nfcTextbox").innerHTML
+                document.getElementById("nfcTextbox").value
             ).then(() => {
-                document.getElementById("bdy").innerHTML +=" Message written.";
                 console.log("message written")
             }).catch(error => {
                 console.log(`Write failed :-( try again: ${error}`);
@@ -89,7 +89,7 @@ function writenfc()
             console.log("textbox is empty");
         }
     }
-    else{
+   else{
         console.log("no writer");
     }
 }
@@ -113,6 +113,9 @@ function nfcHandler()
         }).catch(error => {
             console.log(`Error! Scan failed to start: ${error}.`);
         });
+    }
+    else{
+        console.log("no reader");
     }
 }
 
