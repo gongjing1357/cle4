@@ -1,74 +1,3 @@
-
-/**
-Promise.all([
-    navigator.permissions.query({ name: "nfc" }),
-  ])
-  .then(([{ state: nfcState }]) => {
-    console.log("Geolocation permission state is:", nfcState);
-    document.getElementById("bdy").innerHTML += "Nfc permission state: "+nfcState;
-  });
-
-
-const ndef = new NDEFReader();
-waiting();       
-async function startScanning(){
-
-    if ("NDEFReader" in window) {
-        
-        await ndef.scan();
-        ndef.onreading = event => {
-            console.log("testing ");
-            console.log(event);
-        }
-        // Scan and write NDEF Tags  
-        document.getElementById("bdy").innerHTML += " NDEFReader is in window";
-        //readnfc();
-        
-    }
-    else{
-        document.getElementById("bdy").innerHTML += "NDEFReader is not in window";
-    }
-}
-async function waiting(){
-const nfcPermissionStatus = await navigator.permissions.query({ name: "nfc" });
-if (nfcPermissionStatus.state === "granted") {
-  // NFC access was previously granted, so we can start NFC scanning now.
-  startScanning();
-}
-else{
-    document.getElementById("bdy").innerHTML += " NDEFReader no persimon";
-    console.log("no permission");
-    console.log(nfcPermissionStatus.state);
-    //nfcPermissionStatus.state = "granted";
-    //console.log(nfcPermissionStatus.state);
-    // Prompt user to allow UA to send and receive info when they tap NFC devices.
-    startScanning();
-    writenfc();
-  };
-}
-
-document.getElementById("permissionButton").addEventListener("click, waiting");
-
-function readnfc()
-{
-    read().then(({ serialNumber }) => {
-        document.getElementById("bdy").innerHTML += serialNumber;
-    });
-}
-
-function read() {
-    return new Promise((resolve, reject) => {
-        const ctlr = new AbortController();
-        ctlr.signal.onabort = reject;
-        ndef.addEventListener("reading", event => {
-            ctlr.abort();
-            resolve(event);
-        }, { once: true });
-        ndef.scan({ signal: ctlr.signal }).catch(err => reject(err));
-    });
-} 
-*/
-
 const ndef = new NDEFReader();
 
 function writenfc()
@@ -82,7 +11,7 @@ function writenfc()
             ).then(() => {
                 console.log("message written")
             }).catch(error => {
-                console.log(`Write failed :-( try again: ${error}`);
+                console.log(`Write failed try again: ${error}`);
             });
         }
         else{
@@ -93,7 +22,6 @@ function writenfc()
         console.log("no writer");
     }
 }
-
 
 function nfcHandler()
 {
@@ -137,10 +65,12 @@ function checkMessage(message){
     /*switch(message) {
         //klinkers
         case i:
-            let plopSound = new Audio('/sound/plop.mp3')
+            let klank = new Audio('/sound/i.mp3')
             klank.play()
             break;
         case o:
+            let klank = new Audio('/sound/o.mp3')
+            klank.play()
             break;
         case u:
             break;
