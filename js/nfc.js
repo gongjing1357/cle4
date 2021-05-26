@@ -66,7 +66,7 @@ function read() {
         }, { once: true });
         ndef.scan({ signal: ctlr.signal }).catch(err => reject(err));
     });
-}
+} 
 */
 
 const ndef = new NDEFReader();
