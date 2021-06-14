@@ -1,0 +1,72 @@
+ body{
+    background-image: url("img/bg.jpg");
+    background-color: #cccccc;
+  }
+
+  #container{
+     display: grid inline-grid;
+     grid-template-columns: 30%, 40% 40%;
+  }
+
+  header{
+      padding: 20px;
+      margin:40px;
+  }
+
+  /*Logo animeerd door heen en weer te bewegen*/
+  #logo {
+      position:relative;
+      height: 400px;
+      width: 800px;
+      padding: 20px;
+      animation: rotation 2s infinite alternate-reverse;
+}
+
+@keyframes rotation {
+    from {
+            transform: rotate(0deg);
+    }
+    to {
+            transform: rotate(20deg);
+    }
+
+}
+main{
+    padding: 20px;
+    margin-top: 30px;
+}
+
+#start {
+    height: 350px;
+    width: 700px;
+    border:20px solid gray;
+    background-color: honeydew;
+    border-radius: 160px;
+    margin-top: 25%;
+    margin-left: 45px;
+    padding: 3%;
+    box-shadow: -20px -20px black;
+}
+
+#scan {
+    height: 450px;
+    width: 450px;
+    background-color: honeydew;
+    border: 15px solid gray;
+    border-radius: 100px;
+    padding: 5%;
+    margin-top: 25%;
+    margin-left: 20%;
+    box-shadow: -20px -20px black;
+}
+
+  
+  h1 {
+    color: black;
+    text-align: center;
+  }
+  
+  p {
+    font-family: verdana;
+    font-size: 20px;
+  }
