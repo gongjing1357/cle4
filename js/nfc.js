@@ -1,4 +1,5 @@
 const ndef = new NDEFReader();
+let pageconsole = document.getElementById("console");
 
 function writenfc()
 {
@@ -6,37 +7,49 @@ function writenfc()
         if(document.getElementById("nfcTextbox").value != "")
         {
             console.log("not empty");
+            pageconsole.innerHTML += "not empty <br/>";
             ndef.write(
                 document.getElementById("nfcTextbox").value
             ).then(() => {
                 console.log("message written")
+                pageconsole.innerHTML += "message written <br/>";
             }).catch(error => {
                 console.log(`Write failed try again: ${error}`);
+                pageconsole.innerHTML += `Write failed try again: ${error}<br/>`;
             });
         }
         else{
             console.log("textbox is empty");
+            pageconsole.innerHTML += "textbox is empty<br/>";
         }
     }
    else{
         console.log("no writer");
+        pageconsole.innerHTML += "no writer<br/>";
     }
 }
 
 function nfcHandler()
 {
     if ('NDEFReader' in window) {
-        /* Scan and write NFC tags */
+        //Scan and write NFC tags 
 
         ndef.scan().then(() => {
             console.log("Scan started successfully.");
+            pageconsole.innerHTML += "Scan started successfully.<br/>";
             ndef.onreadingerror = () => {
                 console.log("Cannot read data from the NFC tag. Try another one?");
             };
             ndef.onreading = event => {
                 console.log("NDEF message read.");
                 //Read the message on the tag
-                readTextRecord(event.message);
+                console.log(event.message);
+
+                const message = event.message;
+                for (const record of message.records) {
+                    console.log("Record type:  " + record.recordType);
+                    readTextRecord(record);
+                }
             };
         }).catch(error => {
             console.log(`Error! Scan failed to start: ${error}.`);
@@ -54,98 +67,15 @@ function readTextRecord(record) {
     console.log(`Text: ${message} (${record.lang})`);
     
     //play sound based on the tag scanned
+    pageconsole.innerHTML += `${message}<br/>`;
     checkMessage(message);
 }
 
 function checkMessage(message){
-    let klank = new Audio(`/sound/${message}.mp3`)
-    klank.play()
+    let klank = new Audio(`https://stud.hosted.hr.nl/1012825/cle4/sound/${message}.mp3`)
+    console.log(`https://stud.hosted.hr.nl/1012825/cle4/sound/${message}.mp3`);
+    klank.play().catch(console.log);
     console.log(`play ${klank} message ${message}`);
-
-    /*switch(message) {
-        //klinkers
-        case i:
-            let klank = new Audio('/sound/i.mp3')
-            klank.play()
-            break;
-        case o:
-            let klank = new Audio('/sound/o.mp3')
-            klank.play()
-            break;
-        case u:
-            break;
-        case a:
-            break;
-        case e:
-            break;
-        //lange klinkers
-        case oo:
-            break;
-        case uu:
-            break;
-        case aa:
-            break;
-        case ee:
-        //overige klinkers
-            break;
-        case oe:
-            break;
-        case ou:
-            break;
-        case ei:
-            break;
-        case au:
-            break;
-        case ie:
-            break;
-        case eu:
-            break;
-        case ui:
-            break;
-        case ij:
-            break;
-        //medeklinkers
-        case b:
-            break;
-        case d:
-            break;
-        case f:
-            break;
-        case g:
-            break;
-        case h:
-            break;
-        case j:
-            break;
-        case k:
-            break;
-        case l:
-            break;
-        case m:
-            break;
-        case n:
-            break;
-        case p:
-            break;
-        case r:
-            break;
-        case s:
-            break;
-        case t:
-            break;
-        case v:
-            break;
-        case w:
-            break;
-        case z:
-            break;
-        //uitzonderingen
-        case ng:
-            break;
-        case ch:
-            break;
-    }*/
-
 }
 
 
